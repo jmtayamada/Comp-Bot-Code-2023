@@ -1,6 +1,6 @@
-// ||  |\      /||  |===\\    //==\\   ||===\\   ====||====      /\      |\   ||  ====||====
+// ||  |\      /||  |:==\\    //==\\   ||===\\   ====||====      /\      |\   ||  ====||====
 // ||  ||\    //||  |    ||  //    \\  ||    ||      ||         //\\     ||\  ||      ||    
-// ||  ||\\  // ||  |===//   ||    ||  ||\\=//       ||        //==\\    ||\\ ||      ||    
+// ||  ||\\  // ||  |:==//   ||    ||  ||\\=//       ||        //==\\    ||\\ ||      ||    
 // ||  || \\//  ||  ||       \\    //  || \\         ||       //    \\   || \\||      ||    
 // ||  ||  \/   ||  ||        \\==//   ||  \\        ||      //      \\  ||  \||      ||    
 
@@ -65,6 +65,7 @@ public class Robot extends TimedRobot {
   // autonomous values
   double a_turnValue;
   double a_driveValue;
+  boolean a_scored = false;
   // other
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
@@ -105,60 +106,49 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     m_timer.start();
-    if (tv.getDouble(0) == 1) {
-      double RobotVerticalAngle = ty.getDouble(0);
-      // if (RobotVerticalAngle > 19.5) {
-      //   leftMotor.set(ControlMode.PercentOutput, RobotVerticalAngle);
-      //   leftMotor2.set(ControlMode.PercentOutput, RobotVerticalAngle);
-      //   rightMotor.set(ControlMode.PercentOutput, RobotVerticalAngle);
-      //   rightMotor2.set(ControlMode.PercentOutput, RobotVerticalAngle);
-      // } else if(RobotVerticalAngle < 18.5) {
-      //   leftMotor.set(ControlMode.PercentOutput, 0);
-      //   leftMotor2.set(ControlMode.PercentOutput, 0);
-      //   rightMotor.set(ControlMode.PercentOutput, 0);
-      //   rightMotor2.set(ControlMode.PercentOutput, 0);
-      // } else {
-      //   leftMotor.set(ControlMode.PercentOutput, 0);
-      //   leftMotor2.set(ControlMode.PercentOutput, 0);
-      //   rightMotor.set(ControlMode.PercentOutput, 0);
-      //   rightMotor2.set(ControlMode.PercentOutput, 0);
-      // }
-      a_turnValue = -tx.getDouble(0)/54;
-      if (ty.getDouble(0) > 19.25) {
-        a_driveValue = (ty.getDouble(0)-19.5)/5.35;
-      } else if(ty.getDouble(0) < 18.75) {
-        a_driveValue = -(9.25+(-(ty.getDouble(0)-9.25)))/18.5;
+    if (a_scored == false) {
+      if (tv.getDouble(0) == 1) {
+        double RobotVerticalAngle = ty.getDouble(0);
+        a_turnValue = -tx.getDouble(0)/54;
+        if (ty.getDouble(0) > 19.25) {
+          a_driveValue = (ty.getDouble(0)-19.5)/5.35;
+        } else if(ty.getDouble(0) < 18.75) {
+          a_driveValue = -(9.25+(-(ty.getDouble(0)-9.25)))/18.5;
+        } else {
+          a_driveValue = 0;
+          // arm code goes here
+          a_scored = true;
+        }
+        if (a_driveValue > 1) {
+          a_driveValue = 1;
+        } else if(a_driveValue < -1) {
+          a_driveValue = -1;
+        } 
+        SmartDashboard.putNumber("drive", a_driveValue);
+        SmartDashboard.putNumber("turn", a_turnValue);
+        System.out.println("turn: "+a_turnValue);
+        System.out.println("drive: "+a_driveValue);
+        m_motors1.arcadeDrive(a_driveValue, a_turnValue, false);
+        m_motors2.arcadeDrive(a_driveValue, a_turnValue, false);
+        // leftMotor.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
+        // leftMotor2.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
+        // rightMotor.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
+        // rightMotor2.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
       } else {
-        a_driveValue = 0;
-        // arm code goes here
+        if (m_timer.get() < .5) {
+          m_motors1.arcadeDrive(0, -.5);  //.5
+          m_motors2.arcadeDrive(0, -.5);   //.5
+        } 
+        if (m_timer.get() < 1.5 && m_timer.get() >= .5) {
+          m_motors1.arcadeDrive(0, 0);
+          m_motors2.arcadeDrive(0, 0);
+        }
+        if (m_timer.get() >= 1.5) {
+          m_timer.reset();
+        }
       }
-      if (a_driveValue > 1) {
-        a_driveValue = 1;
-      } else if(a_driveValue < -1) {
-        a_driveValue = -1;
-      } 
-      SmartDashboard.putNumber("drive", a_driveValue);
-      SmartDashboard.putNumber("turn", a_turnValue);
-      System.out.println("turn: "+a_turnValue);
-      System.out.println("drive: "+a_driveValue);
-      m_motors1.arcadeDrive(a_driveValue, a_turnValue, false);
-      m_motors2.arcadeDrive(a_driveValue, a_turnValue, false);
-      // leftMotor.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
-      // leftMotor2.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
-      // rightMotor.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
-      // rightMotor2.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
     } else {
-      if (m_timer.get() < .5) {
-        m_motors1.arcadeDrive(0, -.5);  //.5
-        m_motors2.arcadeDrive(0, -.5);   //.5
-      } 
-      if (m_timer.get() < 1.5 && m_timer.get() >= .5) {
-        m_motors1.arcadeDrive(0, 0);
-        m_motors2.arcadeDrive(0, 0);
-      }
-      if (m_timer.get() >= 1.5) {
-        m_timer.reset();
-      }
+
     }
   }
   
