@@ -9,6 +9,11 @@
 // or something else in the create (ex: new WPI_TalonSRX(port)) use a constant for the port value
 
 
+// for school wifi github changes, run command in terminal
+// shutdown: tailscale down
+// setup: tailscale up --exit-node 100.109.252.124
+
+
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
