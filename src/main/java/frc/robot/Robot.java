@@ -1,6 +1,13 @@
+// ||  |\      /||  |===\\    //==\\   ||===\\   ====||====      /\      |\   ||  ====||====
+// ||  ||\    //||  |    ||  //    \\  ||    ||      ||         //\\     ||\  ||      ||    
+// ||  ||\\  // ||  |===//   ||    ||  ||\\=//       ||        //==\\    ||\\ ||      ||    
+// ||  || \\//  ||  ||       \\    //  || \\         ||       //    \\   || \\||      ||    
+// ||  ||  \/   ||  ||        \\==//   ||  \\        ||      //      \\  ||  \||      ||    
+
 // Please keep this organized, put objects in the right sections
 // use c_name for constants, and m_name for objects, if your object uses a port or string, 
 // or something else in the create (ex: new WPI_TalonSRX(port)) use a constant for the port value
+
 
 package frc.robot;
 
@@ -37,13 +44,15 @@ public class Robot extends TimedRobot {
   final int c_LeftMotor2Port = 2; // port for left motor2
   final int c_RightMotorPort = 3; // port for right motor
   final int c_RightMotor2Port = 4; // port for right motor2
-  // basic motors/electic parts
+  // basic motors
   private final WPI_TalonSRX m_leftMotor = new WPI_TalonSRX(c_LeftMotorPort);
   private final WPI_TalonSRX m_leftMotor2 = new WPI_TalonSRX(c_LeftMotor2Port);
   private final WPI_TalonSRX m_rightMotor = new WPI_TalonSRX(c_RightMotorPort);
   private final WPI_TalonSRX m_rightMotor2 = new WPI_TalonSRX(c_RightMotor2Port);
   private final DifferentialDrive m_motors1 = new DifferentialDrive(m_leftMotor, m_rightMotor);
   private final DifferentialDrive m_motors2 = new DifferentialDrive(m_leftMotor2, m_rightMotor2);
+  // sensors
+  Timer m_timer = new Timer();
   // controllers
   private final Joystick m_driverStick = new Joystick(c_DriverStickPort);
   private final Joystick m_helperStick = new Joystick(c_HelperStickPort);
@@ -53,6 +62,9 @@ public class Robot extends TimedRobot {
   NetworkTableEntry ty = table.getEntry("ty");
   NetworkTableEntry ta = table.getEntry("ta");
   NetworkTableEntry tv = table.getEntry("tv");
+  // autonomous values
+  double a_turnValue;
+  double a_driveValue;
   // other
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
@@ -91,7 +103,65 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    m_timer.start();
+    if (tv.getDouble(0) == 1) {
+      double RobotVerticalAngle = ty.getDouble(0);
+      // if (RobotVerticalAngle > 19.5) {
+      //   leftMotor.set(ControlMode.PercentOutput, RobotVerticalAngle);
+      //   leftMotor2.set(ControlMode.PercentOutput, RobotVerticalAngle);
+      //   rightMotor.set(ControlMode.PercentOutput, RobotVerticalAngle);
+      //   rightMotor2.set(ControlMode.PercentOutput, RobotVerticalAngle);
+      // } else if(RobotVerticalAngle < 18.5) {
+      //   leftMotor.set(ControlMode.PercentOutput, 0);
+      //   leftMotor2.set(ControlMode.PercentOutput, 0);
+      //   rightMotor.set(ControlMode.PercentOutput, 0);
+      //   rightMotor2.set(ControlMode.PercentOutput, 0);
+      // } else {
+      //   leftMotor.set(ControlMode.PercentOutput, 0);
+      //   leftMotor2.set(ControlMode.PercentOutput, 0);
+      //   rightMotor.set(ControlMode.PercentOutput, 0);
+      //   rightMotor2.set(ControlMode.PercentOutput, 0);
+      // }
+      a_turnValue = -tx.getDouble(0)/54;
+      if (ty.getDouble(0) > 19.25) {
+        a_driveValue = (ty.getDouble(0)-19.5)/5.35;
+      } else if(ty.getDouble(0) < 18.75) {
+        a_driveValue = -(9.25+(-(ty.getDouble(0)-9.25)))/18.5;
+      } else {
+        a_driveValue = 0;
+        // arm code goes here
+      }
+      if (a_driveValue > 1) {
+        a_driveValue = 1;
+      } else if(a_driveValue < -1) {
+        a_driveValue = -1;
+      } 
+      SmartDashboard.putNumber("drive", a_driveValue);
+      SmartDashboard.putNumber("turn", a_turnValue);
+      System.out.println("turn: "+a_turnValue);
+      System.out.println("drive: "+a_driveValue);
+      m_motors1.arcadeDrive(a_driveValue, a_turnValue, false);
+      m_motors2.arcadeDrive(a_driveValue, a_turnValue, false);
+      // leftMotor.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
+      // leftMotor2.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
+      // rightMotor.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
+      // rightMotor2.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
+    } else {
+      if (m_timer.get() < .5) {
+        m_motors1.arcadeDrive(0, -.5);  //.5
+        m_motors2.arcadeDrive(0, -.5);   //.5
+      } 
+      if (m_timer.get() < 1.5 && m_timer.get() >= .5) {
+        m_motors1.arcadeDrive(0, 0);
+        m_motors2.arcadeDrive(0, 0);
+      }
+      if (m_timer.get() >= 1.5) {
+        m_timer.reset();
+      }
+    }
+  }
+  
 
   @Override
   public void teleopInit() {
