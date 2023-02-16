@@ -1,6 +1,10 @@
 {
     "enableCppIntellisense": false,
     "currentLanguage": "java",
+<<<<<<< HEAD
     "projectYear": "2022",
+=======
+    "projectYear": "2023",
+>>>>>>> e34028c (Updated to 2023 wpilib)
     "teamNumber": 6658
 }
