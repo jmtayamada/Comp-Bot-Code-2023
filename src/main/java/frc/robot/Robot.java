@@ -14,6 +14,36 @@
 // setup: tailscale up --exit-node 100.109.252.124
 
 
+
+// possible mechanics
+// gyroscope: import com.ctre.phoenix.sensors.WPI_PigeonIMU;
+// encoders: import edu.wpi.first.wpilibj.DigitalInput;
+// limelight?
+// servo: import edu.wpi.first.wpilibj.Servo;
+
+// 1 HD motor
+// 4 cim motors
+// 1 mini cim motor
+// 2 7-inch cylinder; pneumatics
+// 1 5-inch cylinder; pneumatics
+// 2 double solenoid
+
+/* driverstick
+ * joystick: driving
+ * button 6: reverse drivetrain?
+ */
+
+/* helperstick
+ * button 1: intake mechanism out/in
+ * button 2: intake wheels on/off
+ * button 3: intake wheels reverse
+ * button 4: arm up and down (3 presets: low, middle, top)*
+ * button 5: arm extension (3 presetes: low, middle, top)*
+ * button 6: squeezer open/close
+ * arm/arm extension could use the joystick (manual), but aim for presets right now
+ */
+
+
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
