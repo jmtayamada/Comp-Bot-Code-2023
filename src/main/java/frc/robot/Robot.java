@@ -41,6 +41,10 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 
+// notes
+// 19.5 inches -apriltag height for scoring platform
+// navigate .72 inches forward from apriltag, then rotate to apriltag
+
 public class Robot extends TimedRobot {
   // basic constants
   final int c_DriverStickPort = 2; // port for driver stick
@@ -113,7 +117,6 @@ public class Robot extends TimedRobot {
     m_timer.start();
     if (a_scored == false) {
       if (tv.getDouble(0) == 1) {
-        double RobotVerticalAngle = ty.getDouble(0);
         a_turnValue = -tx.getDouble(0)/54;
         if (ty.getDouble(0) > 19.25) {
           a_driveValue = (ty.getDouble(0)-19.5)/5.35;
