@@ -54,6 +54,9 @@
  */
 
 
+// code for intake motors may need to be changed to sparkmax
+
+
  package frc.robot;
 
  import edu.wpi.first.wpilibj.TimedRobot;
@@ -102,7 +105,7 @@
    final double c_IntakeSpeed = .2;
    final double c_ArmSpeedUp = 0.1;
    final double c_ArmSpeedDown = 0.03;
- 
+  
    // basic motors
    private final WPI_TalonSRX m_leftMotor = new WPI_TalonSRX(c_LeftMotorPort);
    private final WPI_TalonSRX m_leftMotor2 = new WPI_TalonSRX(c_LeftMotor2Port);
@@ -113,6 +116,7 @@
    private final WPI_TalonSRX m_armMotor = new WPI_TalonSRX(c_ArmMotorPort);
    private final DifferentialDrive m_motors1 = new DifferentialDrive(m_leftMotor, m_rightMotor);
    private final DifferentialDrive m_motors2 = new DifferentialDrive(m_leftMotor2, m_rightMotor2);
+   private final Encoder m_armExtendEncoder = new Encoder(0, 1);
   //  private final DoubleSolenoid s_intake = new DoubleSolenoid(c_DriverStickPort, null, c_ArmMotorPort, c_ArmExtensionMotorPort);
   //  private final DoubleSolenoid s_squeezer = new DoubleSolenoid(c_DriverStickPort, null, c_ArmMotorPort, c_ArmExtensionMotorPort);
    // sensors
@@ -264,6 +268,15 @@
      } else {
       m_armMotor.set(ControlMode.PercentOutput, 0);
      }
+
+     if (m_helperStick.getRawAxis(b_armextend) > 0 && m_armExtendEncoder.getDistance() < 50) {
+      m_armMotor.set(ControlMode.PercentOutput, c_ArmSpeedUp);
+     } else if (m_helperStick.getRawAxis(b_armextend) < 0) {
+      m_armMotor.set(ControlMode.PercentOutput, c_ArmSpeedDown);
+     } else {
+      m_armMotor.set(ControlMode.PercentOutput, 0);
+     }
+
 
    }
 
