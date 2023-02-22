@@ -104,7 +104,8 @@
    final int c_ArmMotorPort = 1;
    final double c_IntakeSpeed = .2;
    final double c_ArmSpeedUp = 0.1;
-   final double c_ArmSpeedDown = 0.03;
+   final double c_ArmSpeedDown = -0.03;
+   final double c_ArmExtendSpeed = .5;
   
    // basic motors
    private final WPI_TalonSRX m_leftMotor = new WPI_TalonSRX(c_LeftMotorPort);
@@ -270,9 +271,9 @@
      }
 
      if (m_helperStick.getRawAxis(b_armextend) > 0 && m_armExtendEncoder.getDistance() < 50) {
-      m_armMotor.set(ControlMode.PercentOutput, c_ArmSpeedUp);
-     } else if (m_helperStick.getRawAxis(b_armextend) < 0) {
-      m_armMotor.set(ControlMode.PercentOutput, c_ArmSpeedDown);
+      m_armMotor.set(ControlMode.PercentOutput, c_ArmExtendSpeed);
+     } else if (m_helperStick.getRawAxis(b_armextend) < 0 && m_armExtendEncoder.getDistance() > 0) {
+      m_armMotor.set(ControlMode.PercentOutput, -c_ArmExtendSpeed);
      } else {
       m_armMotor.set(ControlMode.PercentOutput, 0);
      }
