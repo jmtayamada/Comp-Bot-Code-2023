@@ -10,6 +10,13 @@
         "visible": true
       }
     },
+    "Other Devices": {
+      "Talon SRX[1]": {
+        "header": {
+          "open": true
+        }
+      }
+    },
     "Solenoids": {
       "0": {
         "header": {
