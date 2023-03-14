@@ -103,7 +103,9 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.SpreadsheetCommand;
 import frc.robot.subsystems.EncoderPositionSubsystem;
+import frc.robot.subsystems.SpreadsheetSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -184,6 +186,8 @@ public class Robot extends TimedRobot {
       c_portintakeout2);
   private final Timer m_gyrotimer = new Timer();
   private final DigitalInput m_armLimitSwitch = new DigitalInput(2);
+  private final SpreadsheetSubsystem m_logSubsystem = new SpreadsheetSubsystem();
+  private final SpreadsheetCommand m_logCommand = new SpreadsheetCommand(m_logSubsystem);
 
   // private final DoubleSolenoid s_intake = new DoubleSolenoid(c_DriverStickPort,
   // null, c_ArmMotorPort, c_ArmExtensionMotorPort);
@@ -265,6 +269,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    CommandScheduler.getInstance().schedule(m_logCommand);
     m_electricalTimer.start();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();

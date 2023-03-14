@@ -10,18 +10,17 @@ import frc.robot.subsystems.SpreadsheetSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class ExampleCommand extends CommandBase {
+public class SpreadsheetCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final EncoderPositionSubsystem m_subsystem;
-  
+  private final SpreadsheetSubsystem m_SpreadsheetSubsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand (EncoderPositionSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public SpreadsheetCommand(SpreadsheetSubsystem subsystem) {
+    m_SpreadsheetSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
