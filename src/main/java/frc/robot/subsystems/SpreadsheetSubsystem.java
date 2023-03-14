@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.opencsv.CSVWriter;
@@ -40,10 +41,12 @@ public class SpreadsheetSubsystem extends SubsystemBase {
 
   public void initialize() {
     try {
-      
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+      LocalDateTime now = LocalDateTime.now();
+      System.out.println(dtf.format(now));
       fWriter = new FileWriter(path, true);
       writer = new CSVWriter(fWriter);
-      columns = new String[]{"", "Stuff", "Things"};
+      columns = new String[]{"Initializing 6658 Robot Code at " + dtf.format(now) + "\n", "Stuff", "Things"};
       curLine = new String[columns.length];
       writer.writeNext(columns);
       timestampTimer.start();
@@ -65,7 +68,7 @@ public class SpreadsheetSubsystem extends SubsystemBase {
       curLine[0] = new Double(timestampTimer.get()).toString();
       curLine[0] = "hehe";
       curLine[1] = "haha";
-      
+
       writer.writeNext(curLine);
 
 
