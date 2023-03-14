@@ -1,0 +1,151 @@
+(Commented Code)
+
+Code 1 (Autonomous Init):
+    // P_AngleController.enableContinuousInput(-180, 180);
+    // P_AngleController.setTolerance(5);
+    // P_DistanceController.setTolerance(2);
+    // P_AngleController2.setTolerance(5);
+    // P_AngleController2.enableContinuousInput(-180, 180);
+
+    // v_intakeout = true;
+    // m_intakeout.set(Value.kForward);
+
+Code 2 (Autonomous Periodic):
+//double v_armLiftPIDTest = MathUtil.clamp(P_ArmLiftController.calculate(v_armencoder), -.5, .5);
+      //m_armMotor.set(ControlMode.PercentOutput, -v_armLiftPIDTest);
+      // // AprilTag Manual
+      // m_timer.start();
+      // if (a_scored == false) {
+      //   if (tv.getDouble(0) == 1) {
+      //     a_turnValue = -tx.getDouble(0)/54;
+      //     if (ty.getDouble(0) > 19.25) {
+      //       a_driveValue = (ty.getDouble(0)-19.5)/5.35;
+      //     } else if (ty.getDouble(0) < 18.75) {
+      //       a_driveValue = -(9.25+(-(ty.getDouble(0)-9.25)))/18.5;
+      //     } else {
+      //       a_driveValue = 0;
+      //       // arm code goes here
+      //       a_scored = true;
+      //     }
+      //     if (a_driveValue > 1) {
+      //       a_driveValue = 1;
+      //     } else if(a_driveValue < -1) {
+      //       a_driveValue = -1;
+      //     } 
+      //     m_motors1.arcadeDrive(a_driveValue, a_turnValue, false);
+      //     m_motors2.arcadeDrive(a_driveValue, a_turnValue, false);
+      //     // leftMotor.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
+      //     // leftMotor2.set(ControlMode.PercentOutput, a_driveValue-(tx.getDouble(0))/54);
+      //     // rightMotor.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
+      //     // rightMotor2.set(ControlMode.PercentOutput, a_driveValue+(tx.getDouble(0))/54);
+      //   } else {
+      //     if (m_timer.get() < .5) {
+      //       m_motors1.arcadeDrive(0, -.5);  //.5
+      //       m_motors2.arcadeDrive(0, -.5);   //.5
+      //     } 
+      //     if (m_timer.get() < 1.5 && m_timer.get() >= .5) {
+      //       m_motors1.arcadeDrive(0, 0);
+      //       m_motors2.arcadeDrive(0, 0);
+      //     }
+      //     if (m_timer.get() >= 1.5) {
+      //       m_timer.reset();
+      //     }
+      //   }
+      // } else {
+      // }
+
+      // int tagID = 0;
+      // // AprilTag JSON
+      // try { 
+      //   JsonNode rootNode = lightMapper.readTree(json.getString(""));
+      //   JsonNode idNode = rootNode.at("/Results/Fiducial/0/fID");//.path("Fiducial[0]").path("fID");
+      //   tagID = idNode.asInt();
+      // } catch (Exception e) {
+      // }
+      
+      // if (tv.getDouble(0) == 1 && tagID == c_tagTarget) {
+       
+        // P_AngleController.setSetpoint(tx.getDouble(0)+v_angle);
+        // while (!P_AngleController.atSetpoint() || !P_DistanceController.atSetpoint()) {
+        // m_motors1.arcadeDrive(P_DistanceController.calculate(v_distancefromtarget, setpointDistance), P_AngleController.calculate(v_angle, setpointAngle));
+        //   m_motors2.arcadeDrive(P_DistanceController.calculate(v_distancefromtarget, setpointDistance), P_AngleController.calculate(v_angle, setpointAngle));
+        //   if (P_AngleController.atSetpoint() && P_DistanceController.atSetpoint()) {
+        //     m_leftMotor.set(ControlMode.PercentOutput, 0);
+        //     m_leftMotor2.set(ControlMode.PercentOutput, 0);
+        //     m_rightMotor.set(ControlMode.PercentOutput, 0);
+        //     m_rightMotor2.set(ControlMode.PercentOutput, 0);
+        //     break;
+        //   }
+        // }
+
+        // test code, limelight only >:)
+      //   P_DistanceController.setSetpoint(20);
+      //   P_AngleController2.setSetpoint(0);
+      //   while (!P_AngleController2.atSetpoint() || !P_DistanceController.atSetpoint()) {
+      //     m_motors1.arcadeDrive(P_DistanceController.calculate(v_distancefromtarget), P_AngleController2.calculate(tx.getDouble(0)));
+      //     m_motors2.arcadeDrive(P_DistanceController.calculate(v_distancefromtarget), P_AngleController2.calculate(tx.getDouble(0)));
+      //     if (P_AngleController2.atSetpoint() && P_DistanceController.atSetpoint()) {
+      //       m_leftMotor.set(ControlMode.PercentOutput, 0);
+      //       m_leftMotor2.set(ControlMode.PercentOutput, 0);
+      //       m_rightMotor.set(ControlMode.PercentOutput, 0);
+      //       m_rightMotor2.set(ControlMode.PercentOutput, 0);
+      //       break;
+      //     } 
+      //   }
+      // } else {
+      //   if (m_timer.get() < .5) {
+      //     m_motors1.arcadeDrive(0, -.5);  //.5
+      //     m_motors2.arcadeDrive(0, -.5);   //.5
+      //   } 
+      //   if (m_timer.get() < 1.5 && m_timer.get() >= .5) {
+      //     m_motors1.arcadeDrive(0, 0);
+      //     m_motors2.arcadeDrive(0, 0);
+      //   }
+      //   if (m_timer.get() >= 1.5) {
+      //     m_timer.reset();
+      //   }
+      // }
+
+      // autonomous alternative
+      // m_armMotor.set(ControlMode.PercentOutput, c_ArmMotorSpeed);
+      // m_armExtension.set(ControlMode.PercentOutput, c_ArmExtendSpeed);
+      // m_armgrab.set(Value.kReverse);
+      // m_armExtension.set(ControlMode.PercentOutput, -c_ArmExtendSpeed);
+      // m_armgrab.set(Value.kForward);
+      // m_armExtension.set(ControlMode.PercentOutput, 0);
+      // // m_armMotor.set(ControlMode.PercentOutput, -c_ArmMotorSpeed);
+
+
+
+
+      // if (m_armMotor.getSelectedSensorPosition(0) != 5) {
+      //   m_armMotor.set(ControlMode.PercentOutput, c_armTo90degrees);
+      // } else if (m_ArmExtendEncoder.getDistance() != 5) {
+        
+      // } else {
+      //   v_armclosed = false;
+      //   m_armgrab.set(Value.kReverse);
+      //   m_timer.start();
+      //   turn = true;
+      // }
+      // if (m_timer.get() > 1 && turn) {
+      //   m_motors1.arcadeDrive(0, MathUtil.clamp(P_GyroController.calculate(m_basicGyro.getAngle(), 180.0), -1, 1));
+      //   m_motors2.arcadeDrive(0, MathUtil.clamp(P_GyroController.calculate(m_basicGyro.getAngle(), 180.0), -1, 1));
+      //   if (P_GyroController.atSetpoint()) {
+      //     moveout = true;
+      //     turn = false;
+      //     m_timer.reset();
+      //     m_intakeMotor.set(ControlMode.PercentOutput, 1);
+      //   }
+      // }
+      // if (moveout && m_timer.get() < 5) {
+      //   m_motors1.arcadeDrive(1, 0);
+      //   m_motors2.arcadeDrive(1, 0);
+      // }
+      // if (m_AutonomousSwitch.get()) {
+        
+      // } else {
+      //   if (v_AutoScore) {
+          
+      //   } else {
+
